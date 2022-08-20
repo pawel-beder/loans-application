@@ -1,0 +1,5 @@
+loan:
+    minAmount: 100.0
+    maxAmount: 999.9
+    minTerm: 10
+    maxTerm: 365
