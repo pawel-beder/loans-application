@@ -3,7 +3,7 @@ package pl.beder.loansapplication.adapters.mongo
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.mapping.Document
-import pl.beder.loansapplication.domain.Money
+import pl.beder.loansapplication.domain.model.Money
 import pl.beder.loansapplication.domain.model.Loan
 import pl.beder.loansapplication.domain.ports.outgoing.LoansRepository
 import java.time.Instant

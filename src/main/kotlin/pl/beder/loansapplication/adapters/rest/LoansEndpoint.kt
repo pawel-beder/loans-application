@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import pl.beder.loansapplication.domain.Money
+import pl.beder.loansapplication.domain.model.Money
 import pl.beder.loansapplication.domain.model.Loan
 import pl.beder.loansapplication.domain.ports.incoming.LoansService
 import java.time.LocalDate

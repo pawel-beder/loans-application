@@ -1,4 +1,4 @@
-package pl.beder.loansapplication.domain
+package pl.beder.loansapplication.domain.model
 
 import java.math.BigDecimal
 import java.util.Currency

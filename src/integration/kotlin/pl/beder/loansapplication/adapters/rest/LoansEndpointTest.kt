@@ -8,7 +8,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.RequestEntity
 import pl.beder.loansapplication.BaseIntegrationTest
-import pl.beder.loansapplication.domain.Money
+import pl.beder.loansapplication.domain.model.Money
 import java.net.URI
 import java.time.LocalDate
 

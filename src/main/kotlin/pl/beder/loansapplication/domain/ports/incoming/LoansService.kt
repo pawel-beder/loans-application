@@ -1,6 +1,6 @@
 package pl.beder.loansapplication.domain.ports.incoming
 
-import pl.beder.loansapplication.domain.Money
+import pl.beder.loansapplication.domain.model.Money
 import pl.beder.loansapplication.domain.model.Loan
 import pl.beder.loansapplication.domain.model.LoanProperties
 import pl.beder.loansapplication.domain.ports.outgoing.LoansRepository

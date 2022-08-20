@@ -1,6 +1,5 @@
 package pl.beder.loansapplication.domain.model
 
-import pl.beder.loansapplication.domain.Money
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId

@@ -25,6 +25,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
     testImplementation("org.testcontainers:mongodb:1.17.3")
     testImplementation("org.testcontainers:junit-jupiter:1.17.3")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<KotlinCompile> {
@@ -45,7 +46,7 @@ sourceSets {
     }
 }
 
-val integrationImplementation by configurations.getting {
+val integrationImplementation: Configuration by configurations.getting {
     extendsFrom(configurations.testImplementation.get())
 }
 

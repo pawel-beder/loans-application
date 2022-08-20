@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import pl.beder.loansapplication.adapters.InMemoryLoansRepository
-import pl.beder.loansapplication.domain.Money
+import pl.beder.loansapplication.domain.model.Money
 import pl.beder.loansapplication.domain.model.Loan
 import pl.beder.loansapplication.domain.model.LoanProperties
 import java.math.BigDecimal

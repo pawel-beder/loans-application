@@ -5,6 +5,7 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.utility.DockerImageName
 
 @SpringBootTest(
     classes = [LoansApplication::class],
@@ -13,7 +14,7 @@ import org.testcontainers.junit.jupiter.Container
 class BaseIntegrationTest {
     companion object {
         @Container
-        val mongoDbContainer = MongoDBContainer()
+        val mongoDbContainer = MongoDBContainer(DockerImageName.parse("mongo:5.0.11"))
 
         init {
             mongoDbContainer.start()

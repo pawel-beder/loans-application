@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 import pl.beder.loansapplication.domain.model.LoanProperties
 import java.math.BigDecimal
 import java.time.LocalTime
-import kotlin.coroutines.suspendCoroutine
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "loan")

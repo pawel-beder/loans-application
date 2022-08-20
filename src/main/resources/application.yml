@@ -6,5 +6,3 @@ loan:
     extensionTerm: 7
     suspiciousHourStart: "00:00"
     suspiciousHourEnd: "06:00"
-
-spring.mongodb.embedded.version: 4.0.2
