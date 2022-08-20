@@ -3,3 +3,4 @@ loan:
     maxAmount: 999.9
     minTerm: 10
     maxTerm: 365
+    extensionTerm: 7
