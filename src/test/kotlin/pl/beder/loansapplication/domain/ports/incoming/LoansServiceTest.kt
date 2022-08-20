@@ -3,43 +3,44 @@ package pl.beder.loansapplication.domain.ports.incoming
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
 import pl.beder.loansapplication.adapters.InMemoryLoansRepository
 import pl.beder.loansapplication.domain.Money
 import pl.beder.loansapplication.domain.model.Loan
 import pl.beder.loansapplication.domain.model.LoanProperties
 import java.math.BigDecimal
+import java.time.Clock
+import java.time.Instant
+import java.time.LocalTime
+import java.time.ZoneId
 
 internal class LoansServiceTest {
 
     companion object {
         private const val DEFAULT_TERM = 90L
-        private const val BELOW_THRESHOLD_TERM = 29L
-        private const val ABOVE_THRESHOLD_TERM = 402L
-
         private const val DEFAULT_EXTENSION = 7L
-
         private val DEFAULT_AMOUNT = Money("10.00")
-        private val BELOW_THRESHOLD_AMOUNT = Money("2.37")
-        private val ABOVE_THRESHOLD_AMOUNT = Money("100.1")
+        private val MAXIMUM_AMOUNT = BigDecimal("100.00")
+        private val ZONE = ZoneId.of("Europe/Warsaw")
 
         private val DEFAULT_PROPS = LoanProperties(
             BigDecimal("5.00"),
-            BigDecimal("100.00"),
+            MAXIMUM_AMOUNT,
             30L,
             365L,
-            DEFAULT_EXTENSION
+            DEFAULT_EXTENSION,
+            LocalTime.MIDNIGHT,
+            LocalTime.of(6, 0)
         )
     }
 
+    private val clock = Clock.fixed(Instant.parse("2022-08-20T02:03:00Z"), ZONE) //04:03 in Warsaw timezone
     private val repo = InMemoryLoansRepository()
-    private val service = LoansService(repo, DEFAULT_PROPS)
+    private val service = LoansService(clock, repo, DEFAULT_PROPS)
 
     @Test
-    fun `should create loan`() {
+    internal fun `should create loan`() {
         //when
         val loan = service.grantLoan(DEFAULT_TERM, DEFAULT_AMOUNT)
 
@@ -50,9 +51,9 @@ internal class LoansServiceTest {
     }
 
     @Test
-    fun `should extend loan`() {
+    internal fun `should extend loan`() {
         //given
-        val originalLoan =  loanExists()
+        val originalLoan = loanExists()
 
         //when
         service.extendLoan(originalLoan.uuid)
@@ -63,9 +64,9 @@ internal class LoansServiceTest {
     }
 
     @Test
-    fun `should fetch loan`() {
+    internal fun `should fetch loan`() {
         //given
-        val originalLoan =  loanExists()
+        val originalLoan = loanExists()
 
         //when
         val fetchedLoan = service.fetchLoan(originalLoan.uuid)
@@ -98,6 +99,13 @@ internal class LoansServiceTest {
         //when
         assertThatThrownBy { service.grantLoan(term, DEFAULT_AMOUNT) }
             .isExactlyInstanceOf(TermAmountOutOfBoundsException::class.java)
+    }
+
+    @Test
+    internal fun `should fail when requesting maximum amount at night`() {
+        //when
+        assertThatThrownBy { service.grantLoan(DEFAULT_TERM, Money(MAXIMUM_AMOUNT)) }
+            .isExactlyInstanceOf(SuspiciousActivityException::class.java)
     }
 
     private fun loanExists(): Loan {

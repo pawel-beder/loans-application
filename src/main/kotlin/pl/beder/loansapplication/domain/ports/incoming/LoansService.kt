@@ -5,16 +5,26 @@ import pl.beder.loansapplication.domain.model.Loan
 import pl.beder.loansapplication.domain.model.LoanProperties
 import pl.beder.loansapplication.domain.ports.outgoing.LoansRepository
 import java.math.BigDecimal
+import java.time.Clock
+import java.time.Instant
+import java.time.LocalTime
+import java.time.ZoneId
 import java.util.UUID
 
 class LoansService(
+    private val clock: Clock,
     private val repo: LoansRepository,
     private val props: LoanProperties
 ) {
 
+    companion object {
+        val zone: ZoneId = ZoneId.of("Europe/Warsaw")
+    }
+
     fun grantLoan(term: Long, amount: Money): Loan {
-        validate(term, amount)
-        val loan = Loan(term, amount)
+        val creationTime = Instant.now(clock)
+        validate(term, amount, creationTime)
+        val loan = Loan(term, amount, creationTime)
         repo.save(loan)
         return loan
     }
@@ -28,7 +38,13 @@ class LoansService(
         return repo.findByUUID(id) ?: throw LoanNotFoundException(id)
     }
 
-    private fun validate(term: Long, amount: Money) {
+    private fun validate(term: Long, amount: Money, creationTime: Instant) {
+        val localTime = LocalTime.ofInstant(creationTime, zone)
+        if(localTime >= props.suspiciousHourStart && localTime <= (props.suspiciousHourEnd)
+            && amount.amount.compareTo(props.maxAmount) == 0){
+            throw SuspiciousActivityException("Requesting ${props.maxAmount} at $localTime is considered suspicious, loan withhold")
+        }
+
         val requestedAmount = amount.amount
         when {
             requestedAmount < props.minAmount -> amountBelowThreshold(requestedAmount)
@@ -39,6 +55,8 @@ class LoansService(
             term < props.minTerm -> termBelowThreshold(term)
             term > props.maxTerm -> termAboveThreshold(term)
         }
+
+
     }
 
     private fun amountAboveThreshold(requestedAmount: BigDecimal) {
@@ -71,3 +89,5 @@ class LoanNotFoundException(id: UUID) : RuntimeException("Loan with id $id was n
 class LoanAmountOutOfBoundsException(message: String) : RuntimeException(message)
 
 class TermAmountOutOfBoundsException(message: String) : RuntimeException(message)
+
+class SuspiciousActivityException(message: String) : RuntimeException(message)

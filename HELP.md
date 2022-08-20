@@ -19,8 +19,9 @@ These additional references should also help you:
 
 # Read Me First
 Some assumptions made to simplify code during development
-* All dates/dateTime ale calculated against JMV default timezone
+* All dates/dateTime ale calculated against Europe/Warsaw timezone
 * Loan's amount is stored with value and currency but thresholds are checked just against value ignoring currency
+* Money object is created with PLN as default currency when it's not provided
 
 ## Getting started
 * build -> gradle build

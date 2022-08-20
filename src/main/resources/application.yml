@@ -4,3 +4,5 @@ loan:
     minTerm: 10
     maxTerm: 365
     extensionTerm: 7
+    suspiciousHourStart: "00:00"
+    suspiciousHourEnd: "06:00"
