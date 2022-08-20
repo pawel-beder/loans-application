@@ -1,7 +1,12 @@
 package pl.beder.loansapplication.domain.ports.incoming
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.ValueSource
 import pl.beder.loansapplication.adapters.InMemoryLoansRepository
 import pl.beder.loansapplication.domain.Money
 import pl.beder.loansapplication.domain.model.Loan
@@ -11,14 +16,21 @@ import java.math.BigDecimal
 internal class LoansServiceTest {
 
     companion object {
-        private const val DEFAULT_TERM = 10L
+        private const val DEFAULT_TERM = 90L
+        private const val BELOW_THRESHOLD_TERM = 29L
+        private const val ABOVE_THRESHOLD_TERM = 402L
+
         private const val DEFAULT_EXTENSION = 7L
+
         private val DEFAULT_AMOUNT = Money("10.00")
+        private val BELOW_THRESHOLD_AMOUNT = Money("2.37")
+        private val ABOVE_THRESHOLD_AMOUNT = Money("100.1")
+
         private val DEFAULT_PROPS = LoanProperties(
-            BigDecimal.ONE,
-            BigDecimal.TEN,
-            1L,
-            10L,
+            BigDecimal("5.00"),
+            BigDecimal("100.00"),
+            30L,
+            365L,
             DEFAULT_EXTENSION
         )
     }
@@ -38,7 +50,7 @@ internal class LoansServiceTest {
     }
 
     @Test
-    fun extendLoan() {
+    fun `should extend loan`() {
         //given
         val originalLoan =  loanExists()
 
@@ -51,7 +63,7 @@ internal class LoansServiceTest {
     }
 
     @Test
-    fun fetchLoan() {
+    fun `should fetch loan`() {
         //given
         val originalLoan =  loanExists()
 
@@ -60,6 +72,32 @@ internal class LoansServiceTest {
 
         //then
         assertThat(fetchedLoan).isEqualTo(originalLoan)
+    }
+
+    @ParameterizedTest(name = "{index} => amount= {0}")
+    @CsvSource(
+        "2.37",
+        "4.99",
+        "100.1",
+        "354.45"
+    )
+    internal fun `should fail when loan amount is not within boundaries`(amount: String) {
+        //when
+        assertThatThrownBy { service.grantLoan(DEFAULT_TERM, Money(amount)) }
+            .isExactlyInstanceOf(LoanAmountOutOfBoundsException::class.java)
+    }
+
+    @ParameterizedTest(name = "{index} => term= {0} days")
+    @CsvSource(
+        "2",
+        "29",
+        "366",
+        "563"
+    )
+    internal fun `should fail when loan term is not within boundaries`(term: Long) {
+        //when
+        assertThatThrownBy { service.grantLoan(term, DEFAULT_AMOUNT) }
+            .isExactlyInstanceOf(TermAmountOutOfBoundsException::class.java)
     }
 
     private fun loanExists(): Loan {

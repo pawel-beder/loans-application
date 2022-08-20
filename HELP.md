@@ -17,3 +17,11 @@ These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
+# Read Me First
+Some assumptions made to simplify code during development
+* All dates/dateTime ale calculated against JMV default timezone
+* Loan's amount is stored with value and currency but thresholds are checked just against value ignoring currency
+
+## Getting started
+* build -> gradle build
+* tests -> gradle test
