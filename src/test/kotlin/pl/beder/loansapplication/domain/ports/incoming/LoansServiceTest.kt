@@ -3,9 +3,9 @@ package pl.beder.loansapplication.domain.ports.incoming
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import pl.beder.loansapplication.adapters.InMemoryLoansRepository
-import pl.beder.loansapplication.config.LoanProperties
 import pl.beder.loansapplication.domain.Money
 import pl.beder.loansapplication.domain.model.Loan
+import pl.beder.loansapplication.domain.model.LoanProperties
 import java.math.BigDecimal
 
 internal class LoansServiceTest {
