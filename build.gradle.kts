@@ -43,7 +43,7 @@ sourceSets {
 }
 
 val integrationImplementation by configurations.getting {
-    extendsFrom(configurations.implementation.get())
+    extendsFrom(configurations.testImplementation.get())
 }
 
 configurations["integrationRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
