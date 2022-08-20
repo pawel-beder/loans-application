@@ -24,7 +24,11 @@ class LoansService(
     fun createLoan(term: Long, amount: Money): Loan {
         val creationTime = Instant.now(clock)
         validate(term, amount, creationTime)
-        val loan = Loan(term, amount, creationTime)
+        val loan = Loan(
+            term = term,
+            amount = amount,
+            creationTime = creationTime
+        )
         repo.save(loan)
         return loan
     }

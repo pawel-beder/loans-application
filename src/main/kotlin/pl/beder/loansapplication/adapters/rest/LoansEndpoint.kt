@@ -37,6 +37,6 @@ class LoansEndpoint(private val service: LoansService) {
 
 data class LoanResponse(val uuid: UUID, val amount: Money, val dueDate: LocalDate)
 
-private fun Loan.toResponse(): LoanResponse = LoanResponse(uuid, amount, dueDate)
+private fun Loan.toResponse(): LoanResponse = LoanResponse(id, amount, dueDate)
 
 data class LoanRequest(val term: Long, val amount: Money)

@@ -12,6 +12,6 @@ class InMemoryLoansRepository : LoansRepository {
     }
 
     override fun save(loan: Loan) {
-        map[loan.uuid] = loan.copy()
+        map[loan.id] = loan.copy()
     }
 }

@@ -45,7 +45,7 @@ internal class LoansServiceTest {
         val loan = service.createLoan(DEFAULT_TERM, DEFAULT_AMOUNT)
 
         //then
-        val persistedLoan = repo.findByUUID(loan.uuid)
+        val persistedLoan = repo.findByUUID(loan.id)
         assertThat(persistedLoan?.term).isEqualTo(DEFAULT_TERM)
         assertThat(persistedLoan?.amount).isEqualTo(DEFAULT_AMOUNT)
     }
@@ -56,10 +56,10 @@ internal class LoansServiceTest {
         val originalLoan = loanExists()
 
         //when
-        service.extendLoan(originalLoan.uuid)
+        service.extendLoan(originalLoan.id)
 
         //then
-        val loan = repo.findByUUID(originalLoan.uuid)
+        val loan = repo.findByUUID(originalLoan.id)
         assertThat(loan?.dueDate).isEqualTo(originalLoan.dueDate.plusDays(DEFAULT_EXTENSION))
     }
 
@@ -69,7 +69,7 @@ internal class LoansServiceTest {
         val originalLoan = loanExists()
 
         //when
-        val fetchedLoan = service.fetchLoan(originalLoan.uuid)
+        val fetchedLoan = service.fetchLoan(originalLoan.id)
 
         //then
         assertThat(fetchedLoan).isEqualTo(originalLoan)

@@ -1,6 +1,5 @@
 package pl.beder.loansapplication
 
-import org.springframework.boot.SpringBootConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
@@ -10,5 +9,5 @@ import org.springframework.boot.runApplication
 class LoansApplication
 
 fun main(args: Array<String>) {
-	runApplication<LoansApplication>(*args)
+    runApplication<LoansApplication>(*args)
 }
