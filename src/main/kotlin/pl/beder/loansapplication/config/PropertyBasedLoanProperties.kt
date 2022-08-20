@@ -7,7 +7,7 @@ import java.math.BigDecimal
 import java.time.LocalTime
 
 @ConstructorBinding
-@ConfigurationProperties(prefix = "loan")
+@ConfigurationProperties("loan")
 data class PropertyBasedLoanProperties(
     val minAmount: BigDecimal,
     val maxAmount: BigDecimal,
