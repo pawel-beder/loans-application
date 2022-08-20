@@ -9,6 +9,7 @@ import java.math.BigDecimal
 data class LoanProperties(
     val minAmount: BigDecimal,
     val maxAmount: BigDecimal,
-    val minTerm: Int,
-    val maxTerm: Int
+    val minTerm: Long,
+    val maxTerm: Long,
+    val extensionTerm: Long
 )
