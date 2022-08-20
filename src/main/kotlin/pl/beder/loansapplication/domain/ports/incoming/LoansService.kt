@@ -21,7 +21,7 @@ class LoansService(
         val zone: ZoneId = ZoneId.of("Europe/Warsaw")
     }
 
-    fun grantLoan(term: Long, amount: Money): Loan {
+    fun createLoan(term: Long, amount: Money): Loan {
         val creationTime = Instant.now(clock)
         validate(term, amount, creationTime)
         val loan = Loan(term, amount, creationTime)

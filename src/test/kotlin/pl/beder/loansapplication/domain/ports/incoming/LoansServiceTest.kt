@@ -42,7 +42,7 @@ internal class LoansServiceTest {
     @Test
     internal fun `should create loan`() {
         //when
-        val loan = service.grantLoan(DEFAULT_TERM, DEFAULT_AMOUNT)
+        val loan = service.createLoan(DEFAULT_TERM, DEFAULT_AMOUNT)
 
         //then
         val persistedLoan = repo.findByUUID(loan.uuid)
@@ -84,7 +84,7 @@ internal class LoansServiceTest {
     )
     internal fun `should fail when loan amount is not within boundaries`(amount: String) {
         //when
-        assertThatThrownBy { service.grantLoan(DEFAULT_TERM, Money(amount)) }
+        assertThatThrownBy { service.createLoan(DEFAULT_TERM, Money(amount)) }
             .isExactlyInstanceOf(LoanAmountOutOfBoundsException::class.java)
     }
 
@@ -97,18 +97,18 @@ internal class LoansServiceTest {
     )
     internal fun `should fail when loan term is not within boundaries`(term: Long) {
         //when
-        assertThatThrownBy { service.grantLoan(term, DEFAULT_AMOUNT) }
+        assertThatThrownBy { service.createLoan(term, DEFAULT_AMOUNT) }
             .isExactlyInstanceOf(TermAmountOutOfBoundsException::class.java)
     }
 
     @Test
     internal fun `should fail when requesting maximum amount at night`() {
         //when
-        assertThatThrownBy { service.grantLoan(DEFAULT_TERM, Money(MAXIMUM_AMOUNT)) }
+        assertThatThrownBy { service.createLoan(DEFAULT_TERM, Money(MAXIMUM_AMOUNT)) }
             .isExactlyInstanceOf(SuspiciousActivityException::class.java)
     }
 
     private fun loanExists(): Loan {
-        return service.grantLoan(DEFAULT_TERM, DEFAULT_AMOUNT)
+        return service.createLoan(DEFAULT_TERM, DEFAULT_AMOUNT)
     }
 }

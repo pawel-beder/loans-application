@@ -13,9 +13,10 @@ data class Loan(val term: Long, var amount: Money, val creationTime: Instant) {
     }
 
     val uuid: UUID = UUID.randomUUID()
-    var dueDate: LocalDate = LocalDate.ofInstant(creationTime,  zone).plusDays(term)
+    var dueDate: LocalDate = LocalDate.ofInstant(creationTime, zone).plusDays(term)
 
     fun extend(extensionTerm: Long) {
         dueDate = dueDate.plusDays(extensionTerm)
     }
+
 }
