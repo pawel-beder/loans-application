@@ -13,7 +13,7 @@ import java.time.ZoneId
 class ApplicationConfig {
 
     companion object {
-        val zone: ZoneId = ZoneId.of("Europe/Warsaw")
+        private val zone: ZoneId = ZoneId.of("Europe/Warsaw")
     }
 
     @Bean

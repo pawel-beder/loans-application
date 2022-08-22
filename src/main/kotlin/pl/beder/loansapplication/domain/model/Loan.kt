@@ -14,7 +14,7 @@ data class Loan(
 ) {
 
     private companion object {
-        val zone: ZoneId = ZoneId.of("Europe/Warsaw")
+        private val zone: ZoneId = ZoneId.of("Europe/Warsaw")
     }
 
     fun extend(extensionTerm: Long) {

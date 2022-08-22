@@ -23,15 +23,15 @@ class LoansEndpoint(private val service: LoansService) {
     }
 
     @PostMapping("/loans/{uuid}/extend")
-    fun extendLoan(@PathVariable("uuid") uuid: UUID): ResponseEntity.BodyBuilder {
+    fun extendLoan(@PathVariable("uuid") uuid: UUID): ResponseEntity<Void> {
         service.extendLoan(uuid)
-        return ResponseEntity.ok()
+        return ResponseEntity.ok().build()
     }
 
     @GetMapping("/loans/{uuid}")
     fun fetchLoan(@PathVariable("uuid") uuid: UUID): ResponseEntity<LoanResponse> {
         val loan = service.fetchLoan(uuid)
-        return ResponseEntity(loan.toResponse(), HttpStatus.CREATED)
+        return ResponseEntity(loan.toResponse(), HttpStatus.OK)
     }
 }
 

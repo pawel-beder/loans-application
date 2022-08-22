@@ -18,7 +18,7 @@ class LoansService(
 ) {
 
     companion object {
-        val zone: ZoneId = ZoneId.of("Europe/Warsaw")
+        private val zone: ZoneId = ZoneId.of("Europe/Warsaw")
     }
 
     fun createLoan(term: Long, amount: Money): Loan {
